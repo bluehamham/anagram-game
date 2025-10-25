@@ -18,7 +18,7 @@ document.addEventListener('keydown', e => {
 document.addEventListener('keyup', e => {
   if (e.key === 'Shift') shiftSwapMode = false;
 });
-
+//スマホ対応　START
 div.addEventListener('touchstart', e => {
   draggedElement = div;
   e.preventDefault();
@@ -33,6 +33,7 @@ div.addEventListener('touchend', e => {
     container.insertBefore(draggedElement, isAfter ? target.nextSibling : target);
   }
 });
+//スマホ対応　END
 
 async function loadTitles() {
   const res = await fetch('./titles.json');
@@ -140,7 +141,7 @@ shuffled.forEach(word => {
   const div = document.createElement('div');
   div.className = 'word';
   div.textContent = word;
-  applyDragEvents(div); // ✅ ここでイベントを付与
+  Events(div); // ✅ ここでイベントを付与
   container.appendChild(div);
 });
   document.getElementById('result').textContent = '';
@@ -174,6 +175,22 @@ function applyDragEvents(div) {
       }
     }
   });
+    // ✅ スマホ対応：タッチ操作で並び替え
+  div.addEventListener('touchstart', e => {
+    draggedElement = div;
+    e.preventDefault();
+  });
+
+  div.addEventListener('touchend', e => {
+    const touch = e.changedTouches[0];
+    const target = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (target && target.classList.contains('word') && target !== draggedElement) {
+      const container = document.getElementById('wordContainer');
+      const isAfter = draggedElement.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING;
+      container.insertBefore(draggedElement, isAfter ? target.nextSibling : target);
+    }
+  });
+
 }
 
 function shuffle(array) {
@@ -239,4 +256,5 @@ function sendFeedbackToServer(titleKey, feedback) {
 }
 
 loadTitles();
+
 
