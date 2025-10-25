@@ -19,6 +19,21 @@ document.addEventListener('keyup', e => {
   if (e.key === 'Shift') shiftSwapMode = false;
 });
 
+div.addEventListener('touchstart', e => {
+  draggedElement = div;
+  e.preventDefault();
+});
+
+div.addEventListener('touchend', e => {
+  const touch = e.changedTouches[0];
+  const target = document.elementFromPoint(touch.clientX, touch.clientY);
+  if (target && target.classList.contains('word') && target !== draggedElement) {
+    const container = document.getElementById('wordContainer');
+    const isAfter = draggedElement.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING;
+    container.insertBefore(draggedElement, isAfter ? target.nextSibling : target);
+  }
+});
+
 async function loadTitles() {
   const res = await fetch('./titles.json');
   const data = await res.json();
@@ -224,3 +239,4 @@ function sendFeedbackToServer(titleKey, feedback) {
 }
 
 loadTitles();
+
