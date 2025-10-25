@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>アナグラムタイトルゲーム</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🎌 アナグラムタイトルゲーム</h1>
+  <p>💡 Shiftキーを押しながらドラッグすると、要素を入れ替えできます</p>
+
+  <!-- 難易度選択ボタン（問題の上） -->
+  <div id="levelSelector" style="margin-bottom: 1em;">
+    <button data-level="easy">簡単</button>
+    <button data-level="normal">ふつう</button>
+    <button data-level="hard">難しい</button>
+  </div>
+
+  <div id="wordContainer" class="drop-zone"></div>
+  <div id="timerBox">⏱ 残り時間: 1:00</div>
+  <div id="hintBox" style="margin-top: 1em;"></div>
+
+  <button id="checkBtn">答え合わせ</button>
+  <button id="nextBtn" style="display: none;">次の問題</button>
+
+  <!-- フィードバックボタン（答え合わせの下） -->
+  <div id="feedbackButtons" style="display: none; margin-top: 1em;">
+    <p>この問題は…</p>
+    <button data-feedback="easy">簡単だった</button>
+    <button data-feedback="normal">ふつうだった</button>
+    <button data-feedback="hard">難しかった</button>
+  </div>
+
+  <div id="result" style="margin-top: 1em;"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
