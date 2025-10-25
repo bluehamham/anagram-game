@@ -19,20 +19,47 @@ document.addEventListener('keyup', e => {
   if (e.key === 'Shift') shiftSwapMode = false;
 });
 //スマホ対応　START
-div.addEventListener('touchstart', e => {
-  draggedElement = div;
-  e.preventDefault();
-});
+function applyDragEvents(div) {
+  div.className = 'word';
+  div.draggable = true;
 
-div.addEventListener('touchend', e => {
-  const touch = e.changedTouches[0];
-  const target = document.elementFromPoint(touch.clientX, touch.clientY);
-  if (target && target.classList.contains('word') && target !== draggedElement) {
-    const container = document.getElementById('wordContainer');
-    const isAfter = draggedElement.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING;
-    container.insertBefore(draggedElement, isAfter ? target.nextSibling : target);
-  }
-});
+  div.addEventListener('dragstart', () => draggedElement = div);
+  div.addEventListener('dragover', e => e.preventDefault());
+  div.addEventListener('drop', e => {
+    e.preventDefault();
+    if (draggedElement && draggedElement !== div) {
+      const container = document.getElementById('wordContainer');
+
+      if (shiftSwapMode) {
+        const draggedClone = draggedElement.cloneNode(true);
+        const targetClone = div.cloneNode(true);
+        applyDragEvents(draggedClone);
+        applyDragEvents(targetClone);
+        container.replaceChild(draggedClone, div);
+        container.replaceChild(targetClone, draggedElement);
+      } else {
+        const isAfter = draggedElement.compareDocumentPosition(div) & Node.DOCUMENT_POSITION_FOLLOWING;
+        container.insertBefore(draggedElement, isAfter ? div.nextSibling : div);
+      }
+    }
+  });
+
+  // ✅ スマホ対応：タッチ操作で並び替え
+  div.addEventListener('touchstart', e => {
+    draggedElement = div;
+    e.preventDefault();
+  });
+
+  div.addEventListener('touchend', e => {
+    const touch = e.changedTouches[0];
+    const target = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (target && target.classList.contains('word') && target !== draggedElement) {
+      const container = document.getElementById('wordContainer');
+      const isAfter = draggedElement.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING;
+      container.insertBefore(draggedElement, isAfter ? target.nextSibling : target);
+    }
+  });
+}
 //スマホ対応　END
 
 async function loadTitles() {
@@ -256,5 +283,6 @@ function sendFeedbackToServer(titleKey, feedback) {
 }
 
 loadTitles();
+
 
 
