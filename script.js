@@ -77,6 +77,11 @@ function applyDragEvents(div) {
   });
 
 }
+
+function moveElementToTouch(el, touch) {
+  el.style.left = `${touch.clientX - el.offsetWidth / 2}px`;
+  el.style.top = `${touch.clientY - el.offsetHeight / 2}px`;
+}
 //スマホ対応　END
 
 async function loadTitles() {
@@ -261,6 +266,7 @@ function sendFeedbackToServer(titleKey, feedback) {
 }
 
 loadTitles();
+
 
 
 
