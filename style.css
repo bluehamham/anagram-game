@@ -40,7 +40,7 @@ body {
 }
 
 .word.dragging-follow {
-  position: absolute;
+  position: fixed;
   pointer-events: none;
   z-index: 1000;
   opacity: 0.8;
@@ -101,6 +101,7 @@ body {
     margin: 4px;
   }
 }
+
 
 
 
