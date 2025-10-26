@@ -168,9 +168,10 @@ shuffled.forEach(word => {
   const div = document.createElement('div');
   div.className = 'word';
   div.textContent = word;
-  Events(div); // ✅ ここでイベントを付与
+  applyDragEvents(div); // ✅ 正しい関数名に修正
   container.appendChild(div);
 });
+
   document.getElementById('result').textContent = '';
   document.getElementById('feedbackButtons').style.display = 'none';
   document.getElementById('nextBtn').style.display = 'none';
@@ -283,6 +284,7 @@ function sendFeedbackToServer(titleKey, feedback) {
 }
 
 loadTitles();
+
 
 
 
