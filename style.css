@@ -47,6 +47,8 @@ body {
   opacity: 0.8;
   transform: scale(1.1);
   transition: none;
+  margin: 0; /* ✅ 余計なマージンを防ぐ */ 
+  padding: 0; /* ✅ 必要なら調整 */
 }
 
 @media screen and (max-width: 600px) {
@@ -104,6 +106,7 @@ body {
     margin: 4px;
   }
 }
+
 
 
 
