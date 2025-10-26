@@ -47,10 +47,12 @@ function applyDragEvents(div) {
   // ✅ スマホ対応：タッチ操作で並び替え
   div.addEventListener('touchstart', e => {
     draggedElement = div;
+    div.classList.add('dragging'); // ✅ 視覚的に強調
     e.preventDefault();
   });
 
   div.addEventListener('touchend', e => {
+    div.classList.remove('dragging'); // ✅ 元に戻す
     const touch = e.changedTouches[0];
     const target = document.elementFromPoint(touch.clientX, touch.clientY);
     if (target && target.classList.contains('word') && target !== draggedElement) {
@@ -188,6 +190,8 @@ function shuffle(array) {
 }
 
 document.getElementById('checkBtn').addEventListener('click', () => {
+  clearTimeout(hintTimeout); // ✅ ヒントを止める
+  
   const container = document.getElementById('wordContainer');
   const current = Array.from(container.children).map(div => div.textContent);
   const result = document.getElementById('result');
@@ -242,6 +246,7 @@ function sendFeedbackToServer(titleKey, feedback) {
 }
 
 loadTitles();
+
 
 
 
