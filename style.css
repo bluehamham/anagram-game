@@ -32,6 +32,12 @@ body {
   font-size: 1em;
   color: #555;
 }
+.word.dragging {
+  opacity: 0.6;
+  transform: scale(1.1);
+  background-color: #ffe680;
+  z-index: 1000;
+}
 
 @media screen and (max-width: 600px) {
   .drop-zone {
@@ -87,4 +93,5 @@ body {
     margin: 4px;
   }
 }
+
 
