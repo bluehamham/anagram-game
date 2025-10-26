@@ -22,6 +22,7 @@ body {
   margin: 5px;
   cursor: grab;
   user-select: none;
+  touch-action: none; /* ✅ タッチ操作をJSで制御するために追加 */
 }
 #timerBox {
   font-size: 1.2em;
@@ -45,12 +46,14 @@ body {
   z-index: 1000;
   opacity: 0.8;
   transform: scale(1.1);
+  transition: none;
 }
 
 @media screen and (max-width: 600px) {
   .drop-zone {
     flex-direction: column;
     align-items: center;
+    flex-wrap: wrap; /* ✅ 追加 */
   }
 
   .word {
@@ -73,7 +76,7 @@ body {
     margin: 5px;
   }
 }
-@media screen and (orientation: landscape) and (max-height: 500px) {
+@media screen and (orientation: landscape) and (max-height: 700px) {
   body {
     font-size: 1.2em;
     padding: 10px;
@@ -101,6 +104,7 @@ body {
     margin: 4px;
   }
 }
+
 
 
 
