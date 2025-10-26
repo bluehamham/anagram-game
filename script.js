@@ -44,15 +44,23 @@ function applyDragEvents(div) {
     }
   });
 
-  // ✅ スマホ対応：タッチ操作で並び替え
   div.addEventListener('touchstart', e => {
     draggedElement = div;
-    div.classList.add('dragging'); // ✅ 視覚的に強調
+    div.classList.add('dragging-follow');
+  
+    const touch = e.touches[0];
+    moveElementToTouch(div, touch);
     e.preventDefault();
   });
-
+  
+  div.addEventListener('touchmove', e => {
+    const touch = e.touches[0];
+    moveElementToTouch(draggedElement, touch);
+  });
+  
   div.addEventListener('touchend', e => {
-    div.classList.remove('dragging'); // ✅ 元に戻す
+    draggedElement.classList.remove('dragging-follow');
+  
     const touch = e.changedTouches[0];
     const target = document.elementFromPoint(touch.clientX, touch.clientY);
     if (target && target.classList.contains('word') && target !== draggedElement) {
@@ -60,7 +68,14 @@ function applyDragEvents(div) {
       const isAfter = draggedElement.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING;
       container.insertBefore(draggedElement, isAfter ? target.nextSibling : target);
     }
+  
+    // 元の位置に戻す（position解除）
+    draggedElement.style.position = '';
+    draggedElement.style.left = '';
+    draggedElement.style.top = '';
+    draggedElement = null;
   });
+
 }
 //スマホ対応　END
 
@@ -246,6 +261,7 @@ function sendFeedbackToServer(titleKey, feedback) {
 }
 
 loadTitles();
+
 
 
 
